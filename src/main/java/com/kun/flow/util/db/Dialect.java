@@ -3,14 +3,6 @@
  * Author   : songkun
  * Create   : 2014年7月5日 下午4:56:11
  *
- * Copyright 2014 songkun. All rights reserved.
- *
- * This software is the confidential and proprietary information
- * of songkun.  
- * You shall not disclose such Confidential Information and shall 
- * use it only in accordance with the terms of the license agreement 
- * you entered into with songkun.
- *
  */
 
 package com.kun.flow.util.db;
@@ -18,7 +10,7 @@ package com.kun.flow.util.db;
 import com.kun.flow.bean.Pagination;
 
 /**
- * 
+ * 数据库方言类
  *
  * @author songkun
  * @version 1.0.0
@@ -26,15 +18,34 @@ import com.kun.flow.bean.Pagination;
  */
 public abstract class Dialect {
 
-	private static final String MYSQL = "mysql";
-	private static final String ORACLE = "oracle";
-	private static final String SQLSERVER = "sqlserver";
-	private static final String DB2 = "db2";
-	private static final String H2 = "h2";
+	public static final String MYSQL = "mysql";
+	public static final String ORACLE = "oracle";
+	public static final String SQLSERVER = "sqlserver";
+	public static final String DB2 = "db2";
+	public static final String H2 = "h2";
 
+	/**
+	 * 获取分页sql,具体实现都是从hibernate中拷贝而来,copy from hibernate
+	 * 
+	 * @author songkun
+	 * @create 2014年7月5日 下午5:43:18
+	 * @param sql
+	 * @param pagination
+	 * @return
+	 * @return String
+	 */
 	public abstract String getLimitString(String sql, Pagination pagination);
 
-	public Dialect getInstance(String dataBaseName) {
+	/**
+	 * 获取具体方言
+	 * 
+	 * @author songkun
+	 * @create 2014年7月5日 下午6:01:34
+	 * @param dataBaseName
+	 * @return
+	 * @return Dialect
+	 */
+	public static final Dialect getInstance(String dataBaseName) {
 		switch (dataBaseName) {
 			case MYSQL :
 				return new MySqlDialect();

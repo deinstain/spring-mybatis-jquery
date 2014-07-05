@@ -131,7 +131,6 @@
 		select
 		<include refid="Operater_Columns" />
 		from operater
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCount" resultType="int">
 		select count(*) from operater

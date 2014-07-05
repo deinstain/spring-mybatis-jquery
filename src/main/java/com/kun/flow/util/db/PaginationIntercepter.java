@@ -7,6 +7,8 @@
  */
 package com.kun.flow.util.db;
 
+import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -15,26 +17,26 @@ import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
+import org.apache.ibatis.plugin.Signature;
+import org.apache.log4j.Logger;
 
 import com.kun.flow.bean.Pagination;
 
 /**
- * do not use it , coding it
+ * 分页拦截器
  * 
  * @author songkun
  * @version 1.0.0
  * @2014年7月3日 下午11:05:57
  */
+@Intercepts({@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class})})
 public class PaginationIntercepter implements Interceptor {
 
-	private String databaseName = MYSQL;
-
-	private static final String MYSQL = "mysql";
-	private static final String ORACLE = "oracle";
-	private static final String SQLSERVER = "sqlserver";
-	private static final String DB2 = "db2";
+	private Dialect dialect = Dialect.getInstance(Dialect.MYSQL);
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -44,57 +46,22 @@ public class PaginationIntercepter implements Interceptor {
 			return invocation.proceed();
 		}
 		BoundSql boundSql = handler.getBoundSql();
-
-		// 获取当前要执行的Sql语句，重写成分页Sql语句
-		// 利用反射设置当前BoundSql对应的sql属性为我们建立好的分页Sql语句
+		// 获取分页sql，从hibernate拷贝而来(mysql/oracle/db2/h2/sqlserver)
+		String sql = dialect.getLimitString(boundSql.getSql(), pagination);
+		try {
+			Field sqlField = boundSql.getClass().getDeclaredField("sql");
+			if (sqlField != null) {
+				sqlField.setAccessible(true);
+				sqlField.set(boundSql, sql);
+			}
+		} catch (Exception e) {
+			logger.error(e);
+		}
 		return invocation.proceed();
 	}
 
-	private String getPaginationSql(String sql, Pagination pagination) {
-		boolean hasOffset = (pagination.getPageNumber() == 1);
-		if (MYSQL.equals(databaseName)) {
-//			MySqlDialect.getLimitString(sql, hasOffset);
-		}
-		return sql;
-	}
 	/**
-	 * 获取Mysql数据库的分页查询语句
-	 * 
-	 * @param page
-	 *            分页对象
-	 * @param sqlBuffer
-	 *            包含原sql语句的StringBuffer对象
-	 * @return Mysql数据库分页语句
-	 */
-	private String getMysqlPageSql(int pageNumber, int pageSize, StringBuilder sb) {
-		// 计算第一条记录的位置，Mysql中记录的位置是从0开始的。
-		int offset = (pageNumber - 1) * pageSize;
-		sb.append(" limit ").append(offset).append(",").append(pageSize);
-		return sb.toString();
-	}
-
-	/**
-	 * 获取Oracle数据库的分页查询语句
-	 * 
-	 * @param page
-	 *            分页对象
-	 * @param sqlBuffer
-	 *            包含原sql语句的StringBuffer对象
-	 * @return Oracle数据库的分页查询语句
-	 */
-	private String getOraclePageSql(int pageNumber, int pageSize, StringBuilder sb) {
-		// 计算第一条记录的位置，Oracle分页是通过rownum进行的，而rownum是从1开始的
-		int offset = (pageNumber - 1) * pageSize + 1;
-		sb.insert(0, "select u.*, rownum r from (").append(") u where rownum < ").append(offset + pageSize);
-		sb.insert(0, "select * from (").append(") where r >= ").append(offset);
-		// 上面的Sql语句拼接之后大概是这个样子：
-		// select * from (select u.*, rownum r from (select * from t_user) u
-		// where rownum < 31) where r >= 16
-		return sb.toString();
-	}
-
-	/**
-	 * 包装目标类(Plugin.wrap(),即,代理)
+	 * 包装目标类(Plugin.wrap(target, this),即,代理)
 	 * 
 	 * @author songkun
 	 * @create 2014年7月5日 下午2:47:10
@@ -186,14 +153,8 @@ public class PaginationIntercepter implements Interceptor {
 
 	@Override
 	public void setProperties(Properties properties) {
-		try {
-			String prop = properties.getProperty("databaseName").trim().toLowerCase();
-			if (prop.equals(MYSQL) || prop.equals(ORACLE)) {
-				databaseName = prop;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (properties.getProperty("dataBase") != null) {
+			dialect = Dialect.getInstance(properties.getProperty("dataBase").toLowerCase());
 		}
 	}
-
 }
