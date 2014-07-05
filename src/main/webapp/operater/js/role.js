@@ -114,15 +114,7 @@ function dblClickRoleRow(rowIndex, rowData) {
  * @param rowIndex
  * @param rowData
  */
-var roleId = 0;
 function clickRoleRow(rowIndex, rowData) {
-	if (roleId == rowData['id']) {
-		return;
-	}
-	roleId = rowData['id'];
-	$('#role_binded_permit_tree').tree({
-		data : []
-	});
 	$.getJSON("../permit/listBindedByRole.do?roleId=" + rowData['id'],
 			function(data) {
 				if (data && data.rows) {
