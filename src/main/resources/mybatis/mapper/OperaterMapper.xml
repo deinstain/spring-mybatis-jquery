@@ -24,7 +24,7 @@
 		? -->
 
 	<!-- 增加 -->
-	<insert id="save" parameterType="com.kun.flow.model.Operater">
+	<insert id="save" parameterType="com.kun.flow.model.Operater" useGeneratedKeys="true" keyProperty="object.id">
 		<if test="object.name != null and object.name != ''">
 			insert into operater (
 			type, code, name, password, superUser, email, phone, createTime,

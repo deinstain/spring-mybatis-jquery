@@ -33,7 +33,7 @@
 		permit_name,p.code as permit_code,p.leaf as permit_leaf,r.name as role_name
 	</sql>
 	<!-- 增加 -->
-	<insert id="save" parameterType="com.kun.flow.model.Operater">
+	<insert id="save" parameterType="com.kun.flow.model.Operater" useGeneratedKeys="true" keyProperty="object.id">
 		insert into role_bind_permit (permitId, roleId, createTime, updateTime,
 		operaterId, operaterCode, status)
 		values
