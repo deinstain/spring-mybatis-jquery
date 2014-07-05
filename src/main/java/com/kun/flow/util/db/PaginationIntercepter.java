@@ -47,9 +47,7 @@ public class PaginationIntercepter implements Interceptor {
 		BoundSql boundSql = handler.getBoundSql();
 
 		// 获取当前要执行的Sql语句，重写成分页Sql语句
-		String pageSql = this.getPageSql(params, boundSql.getSql());
 		// 利用反射设置当前BoundSql对应的sql属性为我们建立好的分页Sql语句
-		ReflectUtil.setFieldValue(boundSql, "sql", pageSql);
 		return invocation.proceed();
 	}
 
