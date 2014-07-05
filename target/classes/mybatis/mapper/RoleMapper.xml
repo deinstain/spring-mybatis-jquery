@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kun.flow.data.RoleMapper">
+	<resultMap id="RoleResultMap" type="com.kun.flow.model.Role">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="operaterId" property="operaterId" jdbcType="BIGINT" />
+		<result column="operaterCode" property="operaterCode" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- ======================================================== -->
+	<sql id="Role_Columns">
+		id, name, remark, createTime, updateTime, operaterId, operaterCode, status
+	</sql>
+	<sql id="Limit_Fragment">
+		<if test="page != null">
+			limit
+			<choose>
+				<when test="page.start >0">
+					${page.start}
+				</when>
+				<otherwise>
+					0
+				</otherwise>
+			</choose>
+			,
+			<choose>
+				<when test="page.pageSize >0">
+					${page.pageSize}
+				</when>
+				<otherwise>
+					10
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+	<select id="listByOperater" resultMap="RoleResultMap" parameterType="map">
+		select
+		<include refid="Role_Columns" />
+		from role where id in(select roleId from operater_bind_role obr where obr.userId=#{key})
+		<include refid="Limit_Fragment" />
+	</select>
+
+	<!-- 增加 -->
+	<insert id="save" parameterType="com.kun.flow.model.Role">
+		<if test="object.name != null and object.name != ''">
+			insert into role ( name, remark, createTime, updateTime, operaterId,
+			operaterCode, status)
+			values
+			(
+			#{object.name},
+			#{object.remark}, #{object.createTime}, #{object.updateTime}, #{object.operaterId},
+			#{object.operaterCode},
+			#{object.status})
+		</if>
+	</insert>
+	<!-- 修改 -->
+	<update id="update" parameterType="com.kun.flow.model.Role">
+		<if test="object.id != null and object.name != null and object.name != ''">
+			update role
+			set name = #{object.name},
+			remark = #{object.remark}, createTime =
+			#{object.createTime},
+			updateTime = #{object.updateTime}, operaterId = #{object.operaterId},
+			operaterCode =
+			#{object.operaterCode}, status =
+			#{object.status} where id=#{object.id}
+		</if>
+	</update>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="com.kun.flow.model.Role">
+		<if test="object.id != null">
+			delete from role where id=#{object.id}
+		</if>
+	</delete>
+	<delete id="deleteAll">
+		delete from role
+	</delete>
+	<delete id="deleteByKey" parameterType="java.io.Serializable">
+		<if test="key != null">
+			delete from role where id=#{key}
+		</if>
+	</delete>
+	<!-- 查询 -->
+	<select id="getByKey" resultMap="RoleResultMap" parameterType="java.io.Serializable">
+		<if test="key != null">
+			select
+			<include refid="Role_Columns" />
+			from role where id = #{key}
+		</if>
+	</select>
+	<select id="getOneByName" resultMap="RoleResultMap" parameterType="com.kun.flow.model.Role">
+		<if test="object.name != null">
+			select
+			<include refid="Role_Columns" />
+			from role name = #{object.name} limit 0,1
+			<!-- <if test="id != null"> -->
+			<!-- id != #{id} and -->
+			<!-- </if> -->
+		</if>
+	</select>
+	<select id="findByExample" resultMap="RoleResultMap" parameterType="com.kun.flow.model.Role">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role
+		<include refid="Common_Where_Fragment" />
+	</select>
+	<select id="findOnePageByExample" resultMap="RoleResultMap" parameterType="map">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role
+		<include refid="Common_Where_Fragment" />
+		<include refid="Limit_Fragment" />
+	</select>
+	<select id="getCountByExample" resultType="int" parameterType="com.kun.flow.model.Permit">
+		select count(*) from role
+		<include refid="Common_Where_Fragment" />
+	</select>
+	<select id="findOneByExample" resultMap="RoleResultMap" parameterType="com.kun.flow.model.Role">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role
+		<include refid="Common_Where_Fragment" />
+		limit 0,1
+	</select>
+	<select id="loadAll" resultMap="RoleResultMap" parameterType="com.kun.flow.model.Role">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role
+	</select>
+	<select id="loadOnePage" resultMap="RoleResultMap" parameterType="com.kun.flow.bean.Pagination">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role
+		<include refid="Limit_Fragment" />
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from role
+	</select>
+	<select id="search" resultMap="RoleResultMap" parameterType="map">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role
+		<include refid="Search_Where_Fragment" />
+		<include refid="Limit_Fragment" />
+	</select>
+	<select id="getCountForSearch" resultType="int" parameterType="com.kun.flow.model.Permit">
+		select count(*) from role
+		<include refid="Search_Where_Fragment" />
+	</select>
+	<select id="listUnbindRolesByOperater" resultMap="RoleResultMap" parameterType="java.io.Serializable">
+		<!-- 当Operater对象为null需要测试 -->
+		select
+		<include refid="Role_Columns" />
+		from role where id not in( select obr.roleId from operater_bind_role as obr where obr.userId=#{key})
+	</select>
+
+
+	<sql id="Common_Where_Fragment">
+		<trim prefix="where" suffixOverrides="and">
+			<include refid="Common_Fragment" />
+			<if test="object.name != null and object.name != ''">
+				name = #{object.name} and
+			</if>
+			<if test="object.operaterCode != null and object.operaterCode != ''">
+				operaterCode = #{object.operaterCode} and
+			</if>
+			<if test="object.remark != null and object.remark != ''">
+				remark = #{object.remark} and
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Search_Where_Fragment">
+		<trim prefix="where" suffixOverrides="and">
+			<include refid="Common_Fragment" />
+			<if test="object.name != null and object.name != ''">
+				<bind name="objName" value="'%'+object.getName()+'%'" />
+				name like #{objName} and
+			</if>
+			<if test="object.remark != null and object.remark != ''">
+				<bind name="objRemark" value="'%'+object.getRemark()+'%'" />
+				remark like #{objRemark} and
+			</if>
+			<if test="object.operaterCode != null and object.operaterCode != ''">
+				<bind name="objOperaterCode" value="'%'+object.getOperaterCode()+'%'" />
+				operaterCode like #{objOperaterCode} and
+			</if>
+		</trim>
+	</sql>
+	<sql id="Common_Fragment">
+		<if test="object.createTime != null">
+			createTime = #{object.createTime} and
+		</if>
+		<if test="object.updateTime != null">
+			updateTime = #{object.updateTime} and
+		</if>
+		<if test="object.status != null">
+			status = #{object.status} and
+		</if>
+	</sql>
+	<!-- ======================================================== -->
+</mapper>

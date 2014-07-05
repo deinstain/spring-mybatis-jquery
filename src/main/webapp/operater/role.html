@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8"
+	content="ie=edge" />
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="../common/widget/jquery/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="../common/widget/jquery/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../common/css/demo.css">
+<script type="text/javascript"
+	src="../common/widget/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../common/widget/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../common/widget/dragdrop/datagrid-dnd.js"></script>
+<script type="text/javascript" src="../common/js/public.js"></script>
+<script type="text/javascript" src="../common/js/validater.js"></script>
+<script type="text/javascript" src="js/role.js"></script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'center'">
+		<table id="role_dg" class="easyui-datagrid"
+			data-options="rownumbers:true,fit:true,singleSelect:false,url:'../role/list.do',pagination:true,method:'get',fitColumns:true,onDblClickRow:dblClickRoleRow,onClickRow:clickRoleRow">
+			<thead>
+				<tr>
+					<th data-options="field:'name',width:150,editor:'text'">用户名</th>
+					<th data-options="field:'remark',width:150,editor:'text'">备注</th>
+					<th data-options="field:'operaterCode',width:100">操作员</th>
+					<th data-options="field:'createTime',width:120">创建时间</th>
+					<th data-options="field:'updateTime',width:120">修改时间</th>
+					<th
+						data-options="field:'status',width:30,formatter:formatStatus,editor:{
+                            type:'combobox',options:{
+                                valueField:'status',
+                                textField:'statusName',
+                                data:[{status:'0',statusName:'禁用'},{status:'1',statusName:'启用',selected:true}],
+                                required:true
+                            }
+                        }">状态</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div data-options="region:'east',border:false"
+		style="width: 150px; padding: 10px;">
+		<div class="easyui-panel" style="padding: 5px">
+			<ul id="role_binded_permit_tree" class="easyui-tree"></ul>
+		</div>
+	</div>
+	<div id="role_window" class="easyui-window" style="padding: 10px;"
+		data-options="modal:true,closed:true,iconCls:'icon-save',maximizable:false,minimizable:false,collapsible:false">
+		<div class="easyui-panel" style="width: 420px">
+			<div style="padding: 10px 40px 10px 40px;">
+				<form id="role_window_form" method="post">
+					<table>
+						<tr>
+							<td>名称:</td>
+							<td><input id="role_window_name"
+								class="easyui-validatebox textbox" type="text"
+								style="width: 200px" name="name"
+								data-options="required:true,missingMessage:'不能为空'"></input></td>
+						</tr>
+						<tr>
+							<td>备注:</td>
+							<td><textarea class="easyui-validatebox textbox"
+									style="width: 200px" rows="3" name="remark"
+									data-options="invalidMessage:'请输入汉字、字母、数字、下划线',validType:['length[1,20]','commonText']"></textarea></td>
+						</tr>
+					</table>
+				</form>
+				<div style="text-align: center; padding: 5px">
+					<a id="role_window_submit" href="javascript:void(0)"
+						class="easyui-linkbutton">提交</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="role_permit_dragDropWindow" class="easyui-window" title="选择权限"
+		style="padding: 5px;"
+		data-options="modal:true,closed:true,minimizable:false,collapsible:false">
+		<div class="easyui-layout" style="width: 650px; height: 400px;">
+			<div data-options="region:'north',border:false"
+				style="width: 500px; height: 50px">
+				<form id="role_permit_searchForm" method="post">
+					<table>
+						<tr>
+							<td style="width: 70px">权限名:</td>
+							<td style="width: 120px"><input class="textbox" type="text"
+								style="width: 100px" name="name"></input></td>
+							<td><a href="javascript:void(0)" class="easyui-linkbutton"
+								onclick="searchPermits()">查&nbsp;&nbsp;询</a></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div data-options="region:'center',border:false,fit:true"
+				style="height: 300px">
+				<div class="easyui-layout" style="height: 300px">
+					<div data-options="region:'west'" style="width: 280px;">
+						<table id="role_permit_leftDataGrid" class="easyui-datagrid"
+							title="未绑定权限"
+							data-options="singleSelect:false,border:false,fit:true,fitColumns:true,pagination:true">
+							<thead>
+								<tr>
+									<th data-options="field:'name',width:80"><font
+										color="green">权限名</font></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div data-options="region:'center',border:false"
+						style="margin-top: 80px; margin-left: 10px;">
+						<div style="height: 40px;">
+							<a id="role_permit_allLeftToRight" 
+								href="javascript:void(0)" class="easyui-linkbutton">&gt;&gt;&gt;</a>
+						</div>
+						<div style="height: 40px;">
+							<a id="role_permit_leftToRight"
+								href="javascript:void(0)" class="easyui-linkbutton">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</a>
+						</div>
+						<div style="height: 40px;">
+							<a id="role_permit_rightToLeft"
+								href="javascript:void(0)" class="easyui-linkbutton">&nbsp;&nbsp;&lt;&nbsp;&nbsp;</a>
+						</div>
+						<div style="height: 40px;">
+							<a id="role_permit_allRightToLeft" 
+								href="javascript:void(0)" class="easyui-linkbutton">&lt;&lt;&lt;</a>
+						</div>
+					</div>
+					<div data-options="region:'east'" style="width: 280px;">
+						<table id="role_permit_rightDataGrid" class="easyui-datagrid"
+							title="已绑定权限"
+							data-options="singleSelect:false,border:false,fit:true,fitColumns:true">
+							<thead>
+								<tr>
+									<th data-options="field:'name',width:80"><font
+										color="green">权限名</font></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div data-options="region:'south',split:true,border:false"
+				style="height: 32px; padding: 0px;">
+				<div style="text-align: center;">
+					<a id="role_permit_dragDropWindow_submit" href="javascript:void(0)"
+						class="easyui-linkbutton">提 &nbsp;&nbsp;交</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="operaterControl" class="com.kun.flow.web.control.OperaterControl">
+		<property name="service">
+			<ref bean="operaterServiceProxy" />
+		</property>
+	</bean>
+
+	<bean id="loginControl" class="com.kun.flow.web.control.LoginControl">
+		<property name="service">
+			<ref bean="operaterServiceProxy" />
+		</property>
+	</bean>
+
+	<bean id="permitControl" class="com.kun.flow.web.control.PermitControl">
+		<property name="service">
+			<ref bean="permitServiceProxy" />
+		</property>
+	</bean>
+
+	<bean id="operaterBindRoleControl" class="com.kun.flow.web.control.OperaterBindRoleControl">
+		<property name="service">
+			<ref bean="operaterBindRoleServiceProxy" />
+		</property>
+		<property name="roleService">
+			<ref bean="roleServiceProxy" />
+		</property>
+	</bean>
+
+	<bean id="roleControl" class="com.kun.flow.web.control.RoleControl">
+		<property name="service">
+			<ref bean="roleServiceProxy" />
+		</property>
+	</bean>
+</beans>

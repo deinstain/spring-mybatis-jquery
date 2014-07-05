@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:datasource.properties</value>
+		</property>
+	</bean>
+
+	<!-- dataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>${ds.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${ds.url}</value>
+		</property>
+		<property name="username">
+			<value>${ds.userName}</value>
+		</property>
+		<property name="password">
+			<value>${ds.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${ds.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${ds.maxWait}</value>
+		</property>
+		<property name="defaultAutoCommit">
+			<value>${ds.defaultAutoCommit}</value>
+		</property>
+	</bean>
+
+	<!-- hibernate Template -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<constructor-arg index="1" value="BATCH" />
+	</bean>
+
+	<!-- <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"></bean> -->
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:mybatis/mapper/*.xml" />
+		<!-- <property name="typeAliasesPackage" value="com.tiantian.mybatis.model" /> -->
+	</bean>
+
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> -->
+	<!-- <property name="basePackage" value="com.kun.flow.dao" /> -->
+	<!-- </bean> -->
+
+	<!-- transaction Manage -->
+	<bean id="baseTxProxy" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="change*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="del*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="set*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="reset*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="validate">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+				<prop key="upload*">PROPAGATION_REQUIRED,-ServiceException,-Exception</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- tomcat can not support jta transaction <bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"> 
+		<property name="transactionManagerName"> <value>javax.transaction.TransactionManager</value> </property> </bean> -->
+	<!-- <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"> -->
+	<!-- <property name="sessionFactory"> -->
+	<!-- <ref local="sessionFactory" /> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+</beans>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8"
+	content="ie=edge" />
+<meta charset="UTF-8">
+<title>Full Layout - jQuery EasyUI Demo</title>
+<link rel="stylesheet" type="text/css"
+	href="common/widget/jquery/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="common/widget/jquery/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="common/css/demo.css">
+<script type="text/javascript"
+	src="common/widget/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="common/widget/jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="common/js/public.js"></script>
+<script type="text/javascript">
+	// uses jQuery to bind a function to the document.ready event.
+	// $(document).ready(function() { 
+	/* Handler for .ready() called. */
+	// });
+	$(function() {
+		var tabs = $('#tt').tabs().tabs('tabs');
+		for (var i = 0; i < tabs.length; i++) {
+			tabs[i].panel('options').tab.unbind().bind('mouseenter', {
+				index : i
+			}, function(e) {
+				$('#tt').tabs('select', e.data.index);
+			});
+		}
+	});
+	function addOperaterMenuTab() {
+		addTab('用户管理', 'operater/operater.html');
+	}
+	function addRoleMenuTab() {
+		addTab('角色管理', 'operater/role.html');
+	}
+</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',border:false"
+		style="height: 10px; background: #B3DFDA; padding: 1px"></div>
+	<div data-options="region:'west'" title="West" style="width: 150px;">
+		<div class="easyui-accordion" data-options="multiple: true"
+			id="myaccrdion">
+			<div title="控件使用" data-options="iconCls:'icon-ok'"
+				style="padding: 5px;">
+				<div style="padding: 5px; letter-spacing: 4px;">
+					<span onclick="addOperaterMenuTab()" style="cursor: pointer">用户管理</span>
+				</div>
+				<div style="padding: 5px; letter-spacing: 4px;">
+					<span onclick="addRoleMenuTab()" style="cursor: pointer">角色管理</span>
+				</div>
+				<div style="padding: 5px; letter-spacing: 4px;">
+					<span>添加用户</span>
+				</div>
+				<div style="padding: 5px; letter-spacing: 4px;">
+					<span>用户管理</span>
+				</div>
+				<div style="padding: 5px; letter-spacing: 4px;">
+					<span>权限设置</span>
+				</div>
+				<div style="padding: 5px; letter-spacing: 4px;">
+					<span>系统日志</span>
+				</div>
+			</div>
+			<div title="员工管理" style="padding: 10px;"
+				data-options="iconCls:'icon-ok'">员工管理</div>
+			<div title="部门管理" style="padding: 10px;"
+				data-options="iconCls:'icon-ok'">部门管理</div>
+			<div title="质量管理" style="padding: 10px;"
+				data-options="iconCls:'icon-ok'">质量管理</div>
+		</div>
+	</div>
+	<div data-options="region:'south',border:false"
+		style="height: 50px; background: #A9FACD; padding: 10px;">south
+		region</div>
+	<div
+		data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+		<div id="tt" class="easyui-tabs" style="width: 700px;"
+			data-options="fit:true,border:false,plain:true">
+			<div title="About" data-options="href:'about.html'"
+				style="padding: 10px"></div>
+		</div>
+	</div>
+</body>
+</html>

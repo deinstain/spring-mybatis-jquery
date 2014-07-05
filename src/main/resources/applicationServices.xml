@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="operaterServiceProxy" parent="baseTxProxy">
+		<property name="proxyInterfaces">
+			<list>
+				<value>com.kun.flow.service.IOperaterService</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref local="operaterService" />
+		</property>
+	</bean>
+	<bean id="operaterService" class="com.kun.flow.service.impl.OperaterServiceImpl">
+		<property name="mapper">
+			<ref bean="operaterMapper" />
+		</property>
+		<property name="operaterBindRoleMapper">
+			<ref bean="operaterBindRoleMapper" />
+		</property>
+	</bean>
+	<bean id="permitServiceProxy" parent="baseTxProxy">
+		<property name="proxyInterfaces">
+			<list>
+				<value>com.kun.flow.service.IPermitService</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref local="permitService" />
+		</property>
+	</bean>
+	<bean id="permitService" class="com.kun.flow.service.impl.PermitServiceImpl">
+		<property name="mapper">
+			<ref bean="permitMapper" />
+		</property>
+	</bean>
+	<bean id="roleServiceProxy" parent="baseTxProxy">
+		<property name="proxyInterfaces">
+			<list>
+				<value>com.kun.flow.service.IRoleService</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref local="roleService" />
+		</property>
+	</bean>
+	<bean id="roleService" class="com.kun.flow.service.impl.RoleServiceImpl">
+		<property name="mapper">
+			<ref bean="roleMapper" />
+		</property>
+		<property name="roleBindPermitMapper">
+			<ref bean="roleBindPermitMapper" />
+		</property>
+	</bean>
+	<bean id="operaterBindRoleServiceProxy" parent="baseTxProxy">
+		<property name="proxyInterfaces">
+			<list>
+				<value>com.kun.flow.service.IOperaterBindRoleService</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref local="operaterBindRoleService" />
+		</property>
+	</bean>
+	<bean id="operaterBindRoleService" class="com.kun.flow.service.impl.OperaterBindRoleServiceImpl">
+		<property name="mapper">
+			<ref bean="operaterBindRoleMapper" />
+		</property>
+	</bean>
+	<bean id="roleBindPermitServiceProxy" parent="baseTxProxy">
+		<property name="proxyInterfaces">
+			<list>
+				<value>com.kun.flow.service.IRoleBindPermitService</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref local="roleBindPermitService" />
+		</property>
+	</bean>
+	<bean id="roleBindPermitService" class="com.kun.flow.service.impl.RoleBindPermitServiceImpl">
+		<property name="mapper">
+			<ref bean="roleBindPermitMapper" />
+		</property>
+	</bean>
+</beans>
