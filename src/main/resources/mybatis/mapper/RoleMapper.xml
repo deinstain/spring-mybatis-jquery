@@ -15,33 +15,10 @@
 	<sql id="Role_Columns">
 		id, name, remark, createTime, updateTime, operaterId, operaterCode, status
 	</sql>
-	<sql id="Limit_Fragment">
-		<if test="page != null">
-			limit
-			<choose>
-				<when test="page.start >0">
-					${page.start}
-				</when>
-				<otherwise>
-					0
-				</otherwise>
-			</choose>
-			,
-			<choose>
-				<when test="page.pageSize >0">
-					${page.pageSize}
-				</when>
-				<otherwise>
-					10
-				</otherwise>
-			</choose>
-		</if>
-	</sql>
 	<select id="listByOperater" resultMap="RoleResultMap" parameterType="map">
 		select
 		<include refid="Role_Columns" />
 		from role where id in(select roleId from operater_bind_role obr where obr.userId=#{key})
-		<include refid="Limit_Fragment" />
 	</select>
 
 	<!-- 增加 -->
@@ -115,7 +92,6 @@
 		<include refid="Role_Columns" />
 		from role
 		<include refid="Common_Where_Fragment" />
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCountByExample" resultType="int" parameterType="com.kun.flow.model.Permit">
 		select count(*) from role
@@ -140,7 +116,6 @@
 		select
 		<include refid="Role_Columns" />
 		from role
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCount" resultType="int">
 		select count(*) from role
@@ -151,7 +126,6 @@
 		<include refid="Role_Columns" />
 		from role
 		<include refid="Search_Where_Fragment" />
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCountForSearch" resultType="int" parameterType="com.kun.flow.model.Permit">
 		select count(*) from role

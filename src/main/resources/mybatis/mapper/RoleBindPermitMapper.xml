@@ -32,28 +32,6 @@
 		rbp.status,p.name as
 		permit_name,p.code as permit_code,p.leaf as permit_leaf,r.name as role_name
 	</sql>
-	<sql id="Limit_Fragment">
-		<if test="page != null">
-			limit
-			<choose>
-				<when test="page.start >0">
-					${page.start}
-				</when>
-				<otherwise>
-					0
-				</otherwise>
-			</choose>
-			,
-			<choose>
-				<when test="page.pageSize >0">
-					${page.pageSize}
-				</when>
-				<otherwise>
-					10
-				</otherwise>
-			</choose>
-		</if>
-	</sql>
 	<!-- 增加 -->
 	<insert id="save" parameterType="com.kun.flow.model.Operater">
 		insert into role_bind_permit (permitId, roleId, createTime, updateTime,
@@ -96,7 +74,6 @@
 		<include refid="RoleBindPermit_Columns" />
 		from role_bind_permit rbp,permit p,role r
 		where rbp.permitId=p.id and rbp.roleId=r.id and rbp.roleId=#{key}
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCountByRole" resultType="int" parameterType="java.io.Serializable">
 		select count(*) from role_bind_permit rbp where

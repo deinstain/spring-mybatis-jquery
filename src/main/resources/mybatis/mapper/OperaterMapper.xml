@@ -106,7 +106,6 @@
 		<include refid="Operater_Columns" />
 		from operater
 		<include refid="Common_Where_Fragment" />
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCountByExample" resultType="int" parameterType="com.kun.flow.model.Operater">
 		select count(*) from operater
@@ -141,7 +140,6 @@
 		<include refid="Operater_Columns" />
 		from operater
 		<include refid="Search_Where_Fragment" />
-		<include refid="Limit_Fragment" />
 	</select>
 	<select id="getCountForSearch" resultType="int" parameterType="com.kun.flow.model.Operater">
 		select count(*) from operater
@@ -151,28 +149,6 @@
 	<sql id="Operater_Columns">
 		id, type, code, name, password, superUser, email, phone, createTime,
 		updateTime,operaterId,operaterCode,status
-	</sql>
-	<sql id="Limit_Fragment">
-		<if test="page != null">
-			limit
-			<choose>
-				<when test="page.start >0">
-					${page.start}
-				</when>
-				<otherwise>
-					0
-				</otherwise>
-			</choose>
-			,
-			<choose>
-				<when test="page.pageSize >0">
-					${page.pageSize}
-				</when>
-				<otherwise>
-					10
-				</otherwise>
-			</choose>
-		</if>
 	</sql>
 
 	<sql id="Common_Where_Fragment">
