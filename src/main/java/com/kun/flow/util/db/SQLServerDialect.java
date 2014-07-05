@@ -24,6 +24,8 @@
 
 package com.kun.flow.util.db;
 
+import com.kun.flow.bean.Pagination;
+
 /**
  * copy from hibernate(请勿改变，包括文件最开始的Copyright注释，尊重作者)
  * 
@@ -31,14 +33,14 @@ package com.kun.flow.util.db;
  * @version 1.0.0
  * @2014年7月5日 下午3:52:37
  */
-public class SQLServerDialect {
+public class SQLServerDialect extends Dialect {
 
-	public String getLimitString(String querySelect, int offset, int limit) {
-		if (offset > 0) {
+	public String getLimitString(String querySelect, Pagination pagination) {
+		if (pagination.getPageNumber() > 1) {
 			throw new UnsupportedOperationException("query result offset is not supported");
 		}
 		return new StringBuffer(querySelect.length() + 8).append(querySelect)
-				.insert(getAfterSelectInsertPoint(querySelect), " top " + limit).toString();
+				.insert(getAfterSelectInsertPoint(querySelect), " top " + pagination.getPageSize()).toString();
 	}
 
 	static int getAfterSelectInsertPoint(String sql) {

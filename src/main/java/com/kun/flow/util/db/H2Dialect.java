@@ -24,6 +24,8 @@
 
 package com.kun.flow.util.db;
 
+import com.kun.flow.bean.Pagination;
+
 /**
  * copy from hibernate(请勿改变，包括文件最开始的hibernate Copyright注释，尊重作者)
  * 
@@ -31,7 +33,7 @@ package com.kun.flow.util.db;
  * @version 1.0.0
  * @2014年7月5日 下午3:55:11
  */
-public class H2Dialect {
+public class H2Dialect extends Dialect {
 
 	/**
 	 * copy from hibernate
@@ -43,9 +45,12 @@ public class H2Dialect {
 	 * @param hasOffset
 	 * @return
 	 */
-	public String getLimitString(String sql, boolean hasOffset) {
-		return new StringBuffer(sql.length() + 20).append(sql).append(hasOffset ? " limit ? offset ?" : " limit ?")
-				.toString();
+	public String getLimitString(String sql, Pagination pagination) {
+		// return new StringBuffer(sql.length() +
+		// 20).append(sql).append(hasOffset ? " limit ? offset ?" : " limit ?")
+		// .toString();
+		return new StringBuffer(sql.length() + 20).append(sql).append(" limit ").append(pagination.getStart())
+				.append(" offset ").append(pagination.getPageSize()).toString();
 	}
 
 }

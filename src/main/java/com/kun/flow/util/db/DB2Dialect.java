@@ -24,6 +24,8 @@
 
 package com.kun.flow.util.db;
 
+import com.kun.flow.bean.Pagination;
+
 /**
  * copy from hibernate(请勿改变，包括文件最开始的hibernate Copyright注释，尊重作者)
  * 
@@ -31,7 +33,7 @@ package com.kun.flow.util.db;
  * @version 1.0.0
  * @2014年7月5日 下午3:49:02
  */
-public class DB2Dialect {
+public class DB2Dialect extends Dialect {
 
 	/**
 	 * copy from hibernate
@@ -43,7 +45,7 @@ public class DB2Dialect {
 	 * @param hasOffset
 	 * @return
 	 */
-	public static final String getLimitString(String sql, boolean hasOffset) {
+	public String getLimitString(String sql, Pagination pagination) {
 		int startOfSelect = sql.toLowerCase().indexOf("select");
 
 		StringBuffer pagingSelect = new StringBuffer(sql.length() + 100).append(sql.substring(0, startOfSelect)) // add
@@ -68,10 +70,13 @@ public class DB2Dialect {
 		pagingSelect.append(" ) as temp_ where rownumber_ ");
 
 		// add the restriction to the outer select
-		if (hasOffset) {
-			pagingSelect.append("between ?+1 and ?");
+		if (pagination.getPageNumber() > 1) {
+			pagingSelect.append("between ").append(pagination.getStart() + 1).append(" and ")
+					.append(pagination.getPageSize());
+			// pagingSelect.append("between ?+1 and ?");
 		} else {
-			pagingSelect.append("<= ?");
+			// pagingSelect.append("<= ?");
+			pagingSelect.append("<= ").append(pagination.getPageSize());
 		}
 
 		return pagingSelect.toString();

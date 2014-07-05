@@ -24,6 +24,8 @@
 
 package com.kun.flow.util.db;
 
+import com.kun.flow.bean.Pagination;
+
 /**
  * copy from hibernate(请勿改变，包括文件最开始的Copyright注释，尊重作者)
  * 
@@ -31,7 +33,7 @@ package com.kun.flow.util.db;
  * @version 1.0.0
  * @2014年7月5日 下午3:41:23
  */
-public class OracleDialect {
+public class OracleDialect extends Dialect {
 
 	/**
 	 * copy from hibernate,分页
@@ -43,7 +45,7 @@ public class OracleDialect {
 	 * @param hasOffset
 	 * @return
 	 */
-	public static final String getLimitString(String sql, boolean hasOffset) {
+	public String getLimitString(String sql, Pagination pagination) {
 		sql = sql.trim();
 		String forUpdateClause = null;
 		boolean isForUpdate = false;
@@ -56,16 +58,17 @@ public class OracleDialect {
 		}
 
 		StringBuffer pagingSelect = new StringBuffer(sql.length() + 100);
-		if (hasOffset) {
+		if (pagination.getPageNumber() > 1) {
 			pagingSelect.append("select * from ( select row_.*, rownum rownum_ from ( ");
 		} else {
 			pagingSelect.append("select * from ( ");
 		}
 		pagingSelect.append(sql);
-		if (hasOffset) {
-			pagingSelect.append(" ) row_ where rownum <= ?) where rownum_ > ?");
+		if (pagination.getPageNumber() > 1) {
+			pagingSelect.append(" ) row_ where rownum <= ").append(pagination.getStart() + pagination.getPageSize())
+					.append(") where rownum_ > ").append(pagination.getStart());
 		} else {
-			pagingSelect.append(" ) where rownum <= ?");
+			pagingSelect.append(" ) where rownum <= ").append(pagination.getPageSize());
 		}
 
 		if (isForUpdate) {
