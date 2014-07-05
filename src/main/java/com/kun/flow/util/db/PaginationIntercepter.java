@@ -53,7 +53,7 @@ public class PaginationIntercepter implements Interceptor {
 	private String getPaginationSql(String sql, Pagination pagination) {
 		boolean hasOffset = (pagination.getPageNumber() == 1);
 		if (MYSQL.equals(databaseName)) {
-			MySqlDialect.getLimitString(sql, hasOffset);
+//			MySqlDialect.getLimitString(sql, hasOffset);
 		}
 		return sql;
 	}
