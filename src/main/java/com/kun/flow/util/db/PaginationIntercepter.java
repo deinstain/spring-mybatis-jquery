@@ -7,7 +7,6 @@
  */
 package com.kun.flow.util.db;
 
-import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -15,7 +14,6 @@ import java.util.Properties;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
@@ -23,6 +21,7 @@ import org.apache.ibatis.plugin.Plugin;
 import com.kun.flow.bean.Pagination;
 
 /**
+ * do not use it , coding it
  * 
  * @author songkun
  * @version 1.0.0
