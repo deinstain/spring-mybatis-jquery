@@ -219,6 +219,7 @@ function closeWindow(module) {
 function list(module) {
 	var dg = getDataGridIdWithPound(module);
 	$(dg).datagrid('options').url = addDynamicParam('../' + module + '/list.do');
+	$(dg).datagrid('options').method = 'post';
 	$(dg).datagrid('load');
 }
 
@@ -298,6 +299,7 @@ function searchRows(module) {
 	$(dg).datagrid('options').url = addDynamicParam('../' + module
 			+ '/search.do');
 	$(dg).datagrid('options').queryParams = formSer;
+	$(dg).datagrid('options').method = 'post';// 解决url参数为乱码问题，因为get请求，参数放在url上会出现编码问题
 	$(dg).datagrid('load');
 	closeWindow(module);
 }
