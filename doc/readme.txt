@@ -15,7 +15,7 @@ xintiankun@163.com
 	mybatis
 	
 5. db
-	mysql
+	mysql，数据库文件db.sql
 	
 先上传spring/mybatis/easyUI(jquery)，陆续开放其他架构：
 
