@@ -181,6 +181,7 @@ function searchPermits() {
 	$('#role_permit_leftDataGrid').datagrid('options').url = "../permit/search.do?roleId="
 			+ rowData['id'];
 	$('#role_permit_leftDataGrid').datagrid('options').queryParams = formSer;
+	$('#role_permit_leftDataGrid').datagrid('options').method = 'post';
 	$("#role_permit_leftDataGrid").datagrid('load');
 }
 

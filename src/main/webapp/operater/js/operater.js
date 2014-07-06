@@ -239,6 +239,7 @@ function searchRoles() {
 	$('#operater_role_leftDataGrid').datagrid('options').url = "../operaterBindRole/listUnbindRole.do?userId="
 			+ rowData['id'];
 	$('#operater_role_leftDataGrid').datagrid('options').queryParams = formSer;
+	$('#operater_role_leftDataGrid').datagrid('options').method = 'post';
 	$("#operater_role_leftDataGrid").datagrid('load');
 }
 
