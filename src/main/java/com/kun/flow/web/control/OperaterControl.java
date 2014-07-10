@@ -34,7 +34,7 @@ import com.kun.flow.web.response.Out;
  */
 @Controller
 @RequestMapping("/operater")
-public class OperaterControl extends BaseControl {
+public class OperaterControl extends BaseControl<Operater> {
 
 	public IOperaterService getOperaterService() {
 		return (IOperaterService) this.getService();
@@ -50,9 +50,9 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/list.do")
 	@ResponseBody
-	public Out list(Pagination pagination) {
+	public Out<Operater> list(Pagination pagination) {
 		try {
-			return new DataOut(this.getService().loadOnePage(pagination), pagination);
+			return new DataOut<Operater>(this.getService().loadOnePage(pagination), pagination);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/add.do")
 	@ResponseBody
-	public Out add(Operater operater) {
+	public Out<Object> add(Operater operater) {
 		try {
 			if (this.getOperaterService().isExist(operater)) {// 如果后台用户已经存在
 				return MessageOut.NAME_OR_CODE_EXIST_MESSAGE;
@@ -106,7 +106,7 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/update.do")
 	@ResponseBody
-	public Out update(Operater operater) {
+	public Out<Object> update(Operater operater) {
 		Operater curOperater = this.getCurrentOperater();
 		try {
 			Operater dbOperater = (Operater) getOperaterService().getByKey(operater.getId());
@@ -154,7 +154,7 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/delete.do")
 	@ResponseBody
-	public Out delete(String ids) {
+	public Out<Object> delete(String ids) {
 		try {
 			boolean flag = true;
 			String msg = null;
@@ -179,7 +179,7 @@ public class OperaterControl extends BaseControl {
 			if (flag) {
 				return MessageOut.DELETE_OK_MESSAGE;
 			} else {
-				return new MessageOut(false, msg);
+				return new MessageOut<Object>(false, msg);
 				// this.modelWrapper.setMessage(true, msg);
 			}
 		} catch (ServiceException e) {
@@ -201,9 +201,9 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/search.do")
 	@ResponseBody
-	public Out search(Operater operater, Pagination pagination) {
+	public Out<Operater> search(Operater operater, Pagination pagination) {
 		try {
-			return new DataOut(this.getService().search(operater, pagination), pagination);
+			return new DataOut<Operater>(this.getService().search(operater, pagination), pagination);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -240,7 +240,7 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/updateMyInfo.do")
 	@ResponseBody
-	public Out updateMyInfo(Operater operater) {
+	public Out<Object> updateMyInfo(Operater operater) {
 		try {
 			Operater dbOperater = (Operater) this.getService().getByKey(this.getCurrentOperater().getId());
 			if (dbOperater == null) {
@@ -279,7 +279,7 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/disable.do")
 	@ResponseBody
-	public Out disable(String ids) {
+	public Out<Object> disable(String ids) {
 		try {
 			if (ids != null && ids.length() > 0) {
 				String[] tmp = ids.split(",");
@@ -311,7 +311,7 @@ public class OperaterControl extends BaseControl {
 	 */
 	@RequestMapping("/enable.do")
 	@ResponseBody
-	public Out enable(String ids) {
+	public Out<Object> enable(String ids) {
 		try {
 			if (ids != null && ids.length() > 0) {
 				String[] tmp = ids.split(",");

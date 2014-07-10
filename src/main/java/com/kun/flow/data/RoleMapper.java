@@ -6,8 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.kun.flow.bean.Pagination;
+import com.kun.flow.model.Role;
 
-public interface RoleMapper extends IMapper {
+public interface RoleMapper extends IMapper<Role> {
 
 	/**
 	 * 获取绑定到操作者上的角色
@@ -19,9 +20,7 @@ public interface RoleMapper extends IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Object> listByOperater(@Param("key")
-	Serializable key, @Param("page")
-	Pagination page) throws Exception;
+	public List<Role> listByOperater(@Param("key") Serializable key, @Param("page") Pagination page) throws Exception;
 
 	/**
 	 * 获取还未被该用户绑定的角色列表
@@ -31,6 +30,5 @@ public interface RoleMapper extends IMapper {
 	 * @param key
 	 * @throws Exception
 	 */
-	public List<Object> listUnbindRolesByOperater(@Param("key")
-	Serializable key) throws Exception;
+	public List<Role> listUnbindRolesByOperater(@Param("key") Serializable key) throws Exception;
 }

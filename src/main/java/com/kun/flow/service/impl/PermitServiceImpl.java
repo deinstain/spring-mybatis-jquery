@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.kun.flow.data.PermitMapper;
 import com.kun.flow.exception.ServiceException;
+import com.kun.flow.model.Permit;
 import com.kun.flow.service.IPermitService;
 
 /**
@@ -21,13 +22,13 @@ import com.kun.flow.service.IPermitService;
  * @version 1.0.0
  * @2014年4月25日 下午2:01:44
  */
-public class PermitServiceImpl extends AbstractServiceImpl implements IPermitService {
+public class PermitServiceImpl extends AbstractServiceImpl<Permit> implements IPermitService {
 
 	private PermitMapper getPermitMapper() {
 		return (PermitMapper) this.getMapper();
 	}
 	@Override
-	public List<Object> listPermitsByRole(Serializable key) throws ServiceException {
+	public List<Permit> listPermitsByRole(Serializable key) throws ServiceException {
 		try {
 			return this.getPermitMapper().listPermitsByRole(key);
 		} catch (Exception e) {
@@ -35,7 +36,7 @@ public class PermitServiceImpl extends AbstractServiceImpl implements IPermitSer
 		}
 	}
 	@Override
-	public List<Object> listUnbindPermitsByRole(Serializable key) throws ServiceException {
+	public List<Permit> listUnbindPermitsByRole(Serializable key) throws ServiceException {
 		try {
 			return this.getPermitMapper().listUnbindPermitsByRole(key);
 		} catch (Exception e) {
@@ -44,7 +45,7 @@ public class PermitServiceImpl extends AbstractServiceImpl implements IPermitSer
 	}
 
 	@Override
-	public List<Object> listPermitByOperater(Serializable key) throws ServiceException {
+	public List<Permit> listPermitByOperater(Serializable key) throws ServiceException {
 		try {
 			return this.getPermitMapper().listPermitsByOperater(key);
 		} catch (Exception e) {

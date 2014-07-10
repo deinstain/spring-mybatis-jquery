@@ -28,7 +28,7 @@ import com.kun.flow.web.response.Out;
  * @2014年4月26日 上午9:52:17
  */
 @RequestMapping("/role")
-public class RoleControl extends BaseControl {
+public class RoleControl extends BaseControl<Role> {
 
 	public IRoleService getRoleService() {
 		return (IRoleService) this.getService();
@@ -45,9 +45,9 @@ public class RoleControl extends BaseControl {
 	 */
 	@RequestMapping("/list.do")
 	@ResponseBody
-	public Out list(Pagination pagination) {
+	public Out<Role> list(Pagination pagination) {
 		try {
-			return new DataOut(this.getService().loadOnePage(pagination), pagination);
+			return new DataOut<Role>(this.getService().loadOnePage(pagination), pagination);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class RoleControl extends BaseControl {
 	 */
 	@RequestMapping("/add.do")
 	@ResponseBody
-	public Out add(Role role) {
+	public Out<Object> add(Role role) {
 		this.getLogger().info("新增用户: " + role.getName());
 		try {
 			if (this.getRoleService().isExist(role)) {// 如果后台用户已经存在
@@ -100,7 +100,7 @@ public class RoleControl extends BaseControl {
 	 */
 	@RequestMapping("/update.do")
 	@ResponseBody
-	public Out update(Role role) {
+	public Out<Object> update(Role role) {
 		try {
 			Role dbRole = (Role) getRoleService().getByKey(role.getId());
 			if (dbRole == null) {
@@ -138,7 +138,7 @@ public class RoleControl extends BaseControl {
 	 */
 	@RequestMapping("/delete.do")
 	@ResponseBody
-	public Out delete(String ids) {
+	public Out<Object> delete(String ids) {
 		try {
 			if (ids != null && ids.length() > 0) {
 				String[] idsArr = ids.split(",");
@@ -167,9 +167,9 @@ public class RoleControl extends BaseControl {
 	 */
 	@RequestMapping("/search.do")
 	@ResponseBody
-	public Out search(Role role, Pagination pagination) {
+	public Out<Role> search(Role role, Pagination pagination) {
 		try {
-			return new DataOut(this.getService().search(role, pagination), pagination);
+			return new DataOut<Role>(this.getService().search(role, pagination), pagination);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

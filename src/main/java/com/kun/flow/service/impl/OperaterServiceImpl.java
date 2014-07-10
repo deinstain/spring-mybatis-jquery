@@ -21,7 +21,7 @@ import com.kun.flow.util.MD5Util;
  * @version 1.0.0
  * @2014年4月24日 下午11:37:01
  */
-public class OperaterServiceImpl extends AbstractServiceImpl implements IOperaterService {
+public class OperaterServiceImpl extends AbstractServiceImpl<Operater> implements IOperaterService {
 
 	private OperaterBindRoleMapper operaterBindRoleMapper;
 
@@ -63,13 +63,12 @@ public class OperaterServiceImpl extends AbstractServiceImpl implements IOperate
 	}
 
 	@Override
-	public void delete(Object object) throws ServiceException {
+	public void delete(Operater operater) throws ServiceException {
 		try {
 			// 级联删除.这种方式有点别扭，不如hibernate来得美观。没有找到仅仅通过配置xml来达到级联删除的方式
 			// 别扭，只是从代码美化、简化角度来说。级联删除的效果是实现了，因为，service方法处于一个事务中
-			Operater operater = (Operater) object;
 			this.getOperaterBindRoleMapper().deleteByOperater(operater.getId());
-			super.delete(object);
+			super.delete(operater);
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}

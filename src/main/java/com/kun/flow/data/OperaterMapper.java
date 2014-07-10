@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.kun.flow.model.Operater;
 
-public interface OperaterMapper extends IMapper {
+public interface OperaterMapper extends IMapper<Operater> {
 
 	/**
 	 * 根据名称或账号获取操作者
@@ -15,6 +15,5 @@ public interface OperaterMapper extends IMapper {
 	 * @param operater
 	 * @throws Exception
 	 */
-	public Operater getOneByNameOrCode(@Param("object")
-	Operater operater) throws Exception;
+	public Operater getOneByNameOrCode(@Param("object") Operater operater) throws Exception;
 }

@@ -22,7 +22,7 @@ import com.kun.flow.exception.DataException;
  * @version 1.0.0
  * @2014年4月23日 下午2:16:30
  */
-public interface IMapper {
+public interface IMapper<T> {
 	/**
 	 * 新增对象
 	 * 
@@ -33,7 +33,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public void save(@Param("object") Object object) throws Exception;
+	public void save(@Param("object") T object) throws Exception;
 
 	/**
 	 * 修改对象
@@ -45,7 +45,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public void update(@Param("object") Object object) throws Exception;
+	public void update(@Param("object") T object) throws Exception;
 
 	/**
 	 * 删除对象
@@ -57,7 +57,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public void delete(@Param("object") Object object) throws Exception;
+	public void delete(@Param("object") T object) throws Exception;
 
 	/**
 	 * 删除所有相关记录
@@ -93,7 +93,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public Object getByKey(@Param("key") Serializable key) throws Exception;
+	public T getByKey(@Param("key") Serializable key) throws Exception;
 
 	/**
 	 * 根据实例,获得对象集
@@ -106,7 +106,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public List<Object> findByExample(@Param("object") Object object) throws Exception;
+	public List<T> findByExample(@Param("object") T object) throws Exception;
 
 	/**
 	 * 根据实例,分页获得对象集,不支持like查找,只能精确查找
@@ -120,7 +120,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public List<Object> findOnePageByExample(@Param("object") Object object, @Param("page") Pagination page)
+	public List<T> findOnePageByExample(@Param("object") T object, @Param("page") Pagination page)
 			throws Exception;
 
 	/**
@@ -134,7 +134,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public Object findOneByExample(@Param("object") Object object) throws Exception;
+	public T findOneByExample(@Param("object") T object) throws Exception;
 
 	/**
 	 * 加载所有对象
@@ -146,7 +146,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public List<Object> loadAll() throws Exception;
+	public List<T> loadAll() throws Exception;
 
 	/**
 	 * 获得当前页的对象(没有设置查询条件)
@@ -159,7 +159,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public List<Object> loadOnePage(@Param("page") Pagination page) throws Exception;
+	public List<T> loadOnePage(@Param("page") Pagination page) throws Exception;
 
 	/**
 	 * 根据实例,分页获得对象集,如果字段是字符串,则使用模糊查找
@@ -173,7 +173,7 @@ public interface IMapper {
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public List<Object> search(@Param("object") Object object, @Param("page") Pagination page) throws Exception;
+	public List<T> search(@Param("object") T object, @Param("page") Pagination page) throws Exception;
 
 	/**
 	 * 根据实例,获得记录条数,不支持like查找,只能精确查找.一般与findOnePageByExample一起使用
@@ -185,7 +185,7 @@ public interface IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getCountByExample(@Param("object") Object object) throws Exception;
+	public int getCountByExample(@Param("object") T object) throws Exception;
 
 	/**
 	 * 获得总记录条数,一般与loadOnePage一起使用
@@ -208,6 +208,6 @@ public interface IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getCountForSearch(@Param("object") Object object) throws Exception;
+	public int getCountForSearch(@Param("object") T object) throws Exception;
 
 }

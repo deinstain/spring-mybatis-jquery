@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * @2014年5月3日 下午3:56:30
  */
-public interface Out {
+public interface Out<T> {
 	/**
 	 * 获取数据集
 	 * 
@@ -25,7 +25,7 @@ public interface Out {
 	 * @since
 	 * @return
 	 */
-	public List<Object> getRows();
+	public List<T> getRows();
 
 	/**
 	 * 获取提示信息

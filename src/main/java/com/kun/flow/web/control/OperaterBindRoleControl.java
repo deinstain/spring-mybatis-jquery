@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kun.flow.bean.Pagination;
 import com.kun.flow.exception.ServiceException;
 import com.kun.flow.model.OperaterBindRole;
+import com.kun.flow.model.Role;
 import com.kun.flow.service.IOperaterBindRoleService;
 import com.kun.flow.service.IRoleService;
 import com.kun.flow.web.response.DataOut;
@@ -29,7 +30,7 @@ import com.kun.flow.web.response.Out;
  */
 @Controller
 @RequestMapping("/operaterBindRole")
-public class OperaterBindRoleControl extends BaseControl {
+public class OperaterBindRoleControl extends BaseControl<OperaterBindRole> {
 
 	private IRoleService roleService;
 
@@ -56,9 +57,9 @@ public class OperaterBindRoleControl extends BaseControl {
 	 */
 	@RequestMapping("/listUnbindRole.do")
 	@ResponseBody
-	public Out listUnbindRole(OperaterBindRole obr) {
+	public Out<Role> listUnbindRole(OperaterBindRole obr) {
 		try {
-			return new DataOut(this.getRoleService().listUnbindRolesByOperater(obr.getUserId()), null);
+			return new DataOut<Role>(this.getRoleService().listUnbindRolesByOperater(obr.getUserId()), null);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -78,9 +79,9 @@ public class OperaterBindRoleControl extends BaseControl {
 	 */
 	@RequestMapping("/listBindedRole.do")
 	@ResponseBody
-	public Out listBindedRole(OperaterBindRole obr, Pagination pagination) {
+	public Out<Role> listBindedRole(OperaterBindRole obr, Pagination pagination) {
 		try {
-			return new DataOut(this.getRoleService().listByOperater(obr.getUserId(), pagination), pagination);
+			return new DataOut<Role>(this.getRoleService().listByOperater(obr.getUserId(), pagination), pagination);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -98,7 +99,7 @@ public class OperaterBindRoleControl extends BaseControl {
 	 */
 	@RequestMapping("/update.do")
 	@ResponseBody
-	public Out update(OperaterBindRole obr, String ids) {
+	public Out<Object> update(OperaterBindRole obr, String ids) {
 		try {
 			this.getOperaterBindRoleService().updateBindsByOperater(obr.getUserId(), ids, this.getCurrentOperater());
 			return MessageOut.UPDATE_OK_MESSAGE;

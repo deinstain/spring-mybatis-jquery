@@ -6,8 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.kun.flow.bean.Pagination;
+import com.kun.flow.model.RoleBindPermit;
 
-public interface RoleBindPermitMapper extends IMapper {
+public interface RoleBindPermitMapper extends IMapper<RoleBindPermit> {
 
 	/**
 	 * 删除绑定到角色的关联
@@ -18,8 +19,7 @@ public interface RoleBindPermitMapper extends IMapper {
 	 * @param key
 	 * @throws Exception
 	 */
-	public void deleteByRole(@Param("key")
-	Serializable key) throws Exception;
+	public void deleteByRole(@Param("key") Serializable key) throws Exception;
 
 	/**
 	 * 获取绑定到角色上的权限列表
@@ -32,9 +32,7 @@ public interface RoleBindPermitMapper extends IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Object> listByRole(@Param("key")
-	Serializable key, @Param("page")
-	Pagination page) throws Exception;
+	public List<RoleBindPermit> listByRole(@Param("key") Serializable key, @Param("page") Pagination page) throws Exception;
 
 	/**
 	 * 获取绑定到角色上的权限个数
@@ -46,6 +44,5 @@ public interface RoleBindPermitMapper extends IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getCountByRole(@Param("key")
-	Serializable key) throws Exception;
+	public int getCountByRole(@Param("key") Serializable key) throws Exception;
 }

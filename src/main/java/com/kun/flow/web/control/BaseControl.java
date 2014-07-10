@@ -24,18 +24,18 @@ import com.kun.flow.service.IService;
  * @version 1.0.0
  * @2014年6月28日 上午9:51:14
  */
-public abstract class BaseControl {
+public abstract class BaseControl<T> {
 
 	/**
 	 * service 接口
 	 */
-	private IService service;
+	private IService<T> service;
 
-	public IService getService() {
+	public IService<T> getService() {
 		return service;
 	}
 
-	public void setService(IService service) {
+	public void setService(IService<T> service) {
 		this.service = service;
 	}
 

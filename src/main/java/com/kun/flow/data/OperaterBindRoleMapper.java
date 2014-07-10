@@ -5,8 +5,9 @@ import java.io.Serializable;
 import org.apache.ibatis.annotations.Param;
 
 import com.kun.flow.exception.ServiceException;
+import com.kun.flow.model.OperaterBindRole;
 
-public interface OperaterBindRoleMapper extends IMapper {
+public interface OperaterBindRoleMapper extends IMapper<OperaterBindRole> {
 
 	/**
 	 * 删除操作者对应的角色
@@ -16,6 +17,5 @@ public interface OperaterBindRoleMapper extends IMapper {
 	 * @param key
 	 * @throws ServiceException
 	 */
-	public void deleteByOperater(@Param("key")
-	Serializable key) throws ServiceException;
+	public void deleteByOperater(@Param("key") Serializable key) throws ServiceException;
 }

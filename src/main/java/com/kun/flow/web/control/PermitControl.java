@@ -31,7 +31,7 @@ import com.kun.flow.web.response.Out;
  * @2014年4月25日 下午2:03:25
  */
 @RequestMapping("/permit")
-public class PermitControl extends BaseControl {
+public class PermitControl extends BaseControl<Permit> {
 
 	public IPermitService getPermitService() {
 		return (IPermitService) this.getService();
@@ -47,7 +47,7 @@ public class PermitControl extends BaseControl {
 	 */
 	@RequestMapping("/listMy.do")
 	@ResponseBody
-	public Out listMy() {
+	public Out<TreeNode> listMy() {
 		Operater operater = this.getCurrentOperater();
 		try {
 			if (operater.getSuperUser() == 1) {
@@ -73,7 +73,7 @@ public class PermitControl extends BaseControl {
 	 */
 	@RequestMapping("/getPermitTreeJson.do")
 	@ResponseBody
-	public Out getPermitTreeJson() {
+	public Out<TreeNode> getPermitTreeJson() {
 		try {
 			return this.toTree(this.getService().loadAll(), true);
 		} catch (ServiceException e) {
@@ -94,7 +94,7 @@ public class PermitControl extends BaseControl {
 	 */
 	@RequestMapping("/listBindedByRole.do")
 	@ResponseBody
-	public Out listBindedByRole(Permit permit) {
+	public Out<TreeNode> listBindedByRole(Permit permit) {
 		try {
 			return this.toTree(this.getPermitService().listPermitsByRole(permit.getRoleId()), true);
 		} catch (ServiceException e) {
@@ -115,13 +115,13 @@ public class PermitControl extends BaseControl {
 	 * @param useId
 	 * @return
 	 */
-	private Out toTree(List<Object> list, boolean useId) {
+	private Out<TreeNode> toTree(List<Permit> list, boolean useId) {
+		List<TreeNode> treeNodes = new ArrayList<TreeNode>();
 		if (list == null || list.size() == 0) {
 			return null;
 		}
 		TreeNode treeNode, childNode;
-		List<Object> treeNodes = new ArrayList<Object>();
-		for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();) {
+		for (Iterator<Permit> iterator = list.iterator(); iterator.hasNext();) {
 			Permit tn = (Permit) iterator.next();
 			if (tn.getLeaf() == 0) {// 非叶子节点
 				treeNode = new TreeNode();
@@ -131,7 +131,7 @@ public class PermitControl extends BaseControl {
 					treeNode.setId(tn.getCode());
 				}
 				treeNode.setText(tn.getName());
-				for (Iterator<Object> ite = list.iterator(); ite.hasNext();) {
+				for (Iterator<Permit> ite = list.iterator(); ite.hasNext();) {
 					Permit tn2 = (Permit) ite.next();
 					if (!tn2.getCode().equals(tn.getCode()) && tn2.getCode().startsWith(tn.getCode())) {
 						childNode = new TreeNode();
@@ -150,6 +150,6 @@ public class PermitControl extends BaseControl {
 		}
 		Pagination pagination = new Pagination();
 		pagination.setTotalRows(treeNodes.size());
-		return new DataOut(treeNodes, pagination);
+		return new DataOut<TreeNode>(treeNodes, pagination);
 	}
 }

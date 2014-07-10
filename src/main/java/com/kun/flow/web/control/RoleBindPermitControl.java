@@ -32,7 +32,7 @@ import com.kun.flow.web.response.Out;
  * @2014年4月26日 上午10:39:47
  */
 @RequestMapping("/roleBindPermit")
-public class RoleBindPermitControl extends BaseControl {
+public class RoleBindPermitControl extends BaseControl<RoleBindPermit> {
 
 	public IRoleBindPermitService getRoleBindPermitService() {
 		return (IRoleBindPermitService) this.getService();
@@ -46,7 +46,7 @@ public class RoleBindPermitControl extends BaseControl {
 	 */
 	@RequestMapping("/list.do")
 	@ResponseBody
-	public Out list(RoleBindPermit rbp, Pagination pagination) {
+	public Out<TreeGridNode> list(RoleBindPermit rbp, Pagination pagination) {
 		try {
 			return toTreeGrid(this.getRoleBindPermitService().listByRole(rbp.getRole().getId(), pagination));
 		} catch (ServiceException ex) {
@@ -65,7 +65,7 @@ public class RoleBindPermitControl extends BaseControl {
 	 */
 	@RequestMapping("/update.do")
 	@ResponseBody
-	public Out update(RoleBindPermit rbp, String ids) {
+	public Out<Object> update(RoleBindPermit rbp, String ids) {
 		try {
 			this.getRoleBindPermitService().updateBindsByRole(rbp.getRole().getId(), ids, this.getCurrentOperater());
 			return MessageOut.UPDATE_OK_MESSAGE;
@@ -83,13 +83,13 @@ public class RoleBindPermitControl extends BaseControl {
 	 * @author songkun
 	 * @create 2014年4月26日 上午10:42:37
 	 */
-	private Out toTreeGrid(List<Object> list) {
+	private Out<TreeGridNode> toTreeGrid(List<RoleBindPermit> list) {
 		if (list == null || list.size() == 0) {
 			return null;
 		}
 		TreeGridNode treeNode, childNode;
-		List<Object> treeNodes = new ArrayList<Object>();
-		for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();) {
+		List<TreeGridNode> treeNodes = new ArrayList<TreeGridNode>();
+		for (Iterator<RoleBindPermit> iterator = list.iterator(); iterator.hasNext();) {
 			RoleBindPermit rbp = (RoleBindPermit) iterator.next();
 			Permit tn = (Permit) rbp.getPermit();
 			if (tn.getLeaf() == 0) {// 非叶子节点
@@ -101,7 +101,7 @@ public class RoleBindPermitControl extends BaseControl {
 				treeNode.setCls("bind-folder");
 				treeNode.setLeaf(false);
 				treeNode.setSingleClickExpand(true);
-				for (Iterator<Object> ite = list.iterator(); ite.hasNext();) {
+				for (Iterator<RoleBindPermit> ite = list.iterator(); ite.hasNext();) {
 					RoleBindPermit rbp2 = (RoleBindPermit) ite.next();
 					Permit tn2 = (Permit) rbp2.getPermit();
 					if (!tn2.getCode().equals(tn.getCode()) && tn2.getCode().startsWith(tn.getCode())) {
@@ -120,6 +120,6 @@ public class RoleBindPermitControl extends BaseControl {
 		}
 		Pagination pagination = new Pagination();
 		pagination.setTotalRows(treeNodes.size());
-		return new DataOut(treeNodes, pagination);
+		return new DataOut<TreeGridNode>(treeNodes, pagination);
 	}
 }

@@ -18,18 +18,18 @@ import com.kun.flow.bean.Pagination;
  * @version 1.0.0
  * @2014年6月28日 下午1:59:34
  */
-public class DataOut implements Out {
+public class DataOut<T> implements Out<T> {
 
 	private Pagination pagination;
-	private List<Object> rows;
+	private List<T> rows;
 
-	public DataOut(List<Object> rows, Pagination pagination) {
+	public DataOut(List<T> rows, Pagination pagination) {
 		this.rows = rows;
 		this.pagination = pagination;
 	}
 
 	@Override
-	public List<Object> getRows() {
+	public List<T> getRows() {
 		return rows;
 	}
 
@@ -52,7 +52,7 @@ public class DataOut implements Out {
 	}
 
 	// extends
-	public void setRows(List<Object> rows) {
+	public void setRows(List<T> rows) {
 		this.rows = rows;
 	}
 

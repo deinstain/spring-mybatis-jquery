@@ -24,7 +24,7 @@ import com.kun.flow.service.IRoleService;
  * @version 1.0.0
  * @2014年4月25日 下午9:12:29
  */
-public class RoleServiceImpl extends AbstractServiceImpl implements IRoleService {
+public class RoleServiceImpl extends AbstractServiceImpl<Role> implements IRoleService {
 
 	private RoleBindPermitMapper roleBindPermitMapper;
 
@@ -41,7 +41,7 @@ public class RoleServiceImpl extends AbstractServiceImpl implements IRoleService
 	}
 
 	@Override
-	public List<Object> listByOperater(Serializable key, Pagination page) throws ServiceException {
+	public List<Role> listByOperater(Serializable key, Pagination page) throws ServiceException {
 		try {
 			return this.getRoleMapper().listByOperater(key, page);
 		} catch (Exception e) {
@@ -50,7 +50,7 @@ public class RoleServiceImpl extends AbstractServiceImpl implements IRoleService
 	}
 
 	@Override
-	public List<Object> listUnbindRolesByOperater(Serializable key) throws ServiceException {
+	public List<Role> listUnbindRolesByOperater(Serializable key) throws ServiceException {
 		try {
 			return this.getRoleMapper().listUnbindRolesByOperater(key);
 		} catch (Exception e) {

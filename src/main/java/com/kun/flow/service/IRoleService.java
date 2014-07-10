@@ -21,7 +21,7 @@ import com.kun.flow.model.Role;
  * @version 1.0.0
  * @2014年4月25日 下午9:10:16
  */
-public interface IRoleService extends IService {
+public interface IRoleService extends IService<Role> {
 
 	/**
 	 * 获取绑定到操作者上的角色
@@ -34,7 +34,7 @@ public interface IRoleService extends IService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Object> listByOperater(Serializable key, Pagination page) throws ServiceException;
+	public List<Role> listByOperater(Serializable key, Pagination page) throws ServiceException;
 
 	/**
 	 * 获取还未被该用户绑定的角色列表
@@ -45,7 +45,7 @@ public interface IRoleService extends IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<Object> listUnbindRolesByOperater(Serializable key) throws ServiceException;
+	public List<Role> listUnbindRolesByOperater(Serializable key) throws ServiceException;
 
 	/**
 	 * 判断角色是否存在

@@ -25,7 +25,7 @@ import com.kun.flow.service.IRoleBindPermitService;
  * @version 1.0.0
  * @2014年4月26日 上午10:23:45
  */
-public class RoleBindPermitServiceImpl extends AbstractServiceImpl implements IRoleBindPermitService {
+public class RoleBindPermitServiceImpl extends AbstractServiceImpl<RoleBindPermit> implements IRoleBindPermitService {
 
 	private RoleBindPermitMapper getRoleBindPermitMapper() {
 		return (RoleBindPermitMapper) this.getMapper();
@@ -60,9 +60,9 @@ public class RoleBindPermitServiceImpl extends AbstractServiceImpl implements IR
 	}
 
 	@Override
-	public List<Object> listByRole(Long roleId, Pagination page) throws ServiceException {
+	public List<RoleBindPermit> listByRole(Long roleId, Pagination page) throws ServiceException {
 		try {
-			List<Object> list = this.getRoleBindPermitMapper().listByRole(roleId, page);
+			List<RoleBindPermit> list = this.getRoleBindPermitMapper().listByRole(roleId, page);
 			if (list == null || list.size() < page.getPageSize()) {
 				page.setTotalRows((page.getPageNumber() - 1) * page.getPageSize() + (list == null ? 0 : list.size()));
 			} else {

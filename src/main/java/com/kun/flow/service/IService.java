@@ -13,21 +13,21 @@ import com.kun.flow.exception.ServiceException;
  * @version 1.0.0
  * @2014年4月23日 下午2:34:55
  */
-public interface IService {
+public interface IService<T> {
 
 	/**
 	 * 保存对象
 	 * 
 	 * @param object
 	 */
-	public void save(Object object) throws ServiceException;
+	public void save(T object) throws ServiceException;
 
 	/**
 	 * 更新对象
 	 * 
 	 * @param object
 	 */
-	public void update(Object object) throws ServiceException;
+	public void update(T object) throws ServiceException;
 
 	/**
 	 * 根据主键,获得对象
@@ -35,14 +35,14 @@ public interface IService {
 	 * @param key
 	 * @return
 	 */
-	public Object getByKey(Serializable key) throws ServiceException;
+	public T getByKey(Serializable key) throws ServiceException;
 
 	/**
 	 * 删除对象
 	 * 
 	 * @param object
 	 */
-	public void delete(Object object) throws ServiceException;
+	public void delete(T object) throws ServiceException;
 
 	/**
 	 * 删除对象所有相关记录
@@ -62,7 +62,7 @@ public interface IService {
 	 * 
 	 * @param object
 	 */
-	public List<Object> findByExample(Object object) throws ServiceException;
+	public List<T> findByExample(T object) throws ServiceException;
 
 	/**
 	 * 根据实例,分页获得对象集,不支持like查找,只能精确查找
@@ -74,7 +74,7 @@ public interface IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<Object> findOnePageByExample(Object object, Pagination page) throws ServiceException;
+	public List<T> findOnePageByExample(T object, Pagination page) throws ServiceException;
 
 	/**
 	 * 根据实例,获得对象
@@ -86,7 +86,7 @@ public interface IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public Object findOneByExample(Object object) throws ServiceException;
+	public T findOneByExample(T object) throws ServiceException;
 
 	/**
 	 * 加载所有对象
@@ -97,7 +97,7 @@ public interface IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<Object> loadAll() throws ServiceException;
+	public List<T> loadAll() throws ServiceException;
 
 	/**
 	 * 获得当前页的对象(没有设置查询条件)
@@ -109,7 +109,7 @@ public interface IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<Object> loadOnePage(Pagination page) throws ServiceException;
+	public List<T> loadOnePage(Pagination page) throws ServiceException;
 
 	/**
 	 * 根据实例,分页获得对象集,如果字段是字符串,则使用模糊查找
@@ -122,6 +122,6 @@ public interface IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<Object> search(Object object, Pagination page) throws ServiceException;
+	public List<T> search(T object, Pagination page) throws ServiceException;
 
 }

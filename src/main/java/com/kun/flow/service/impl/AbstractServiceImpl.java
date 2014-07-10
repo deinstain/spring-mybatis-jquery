@@ -22,20 +22,20 @@ import com.kun.flow.service.IService;
  * @version 1.0.0
  * @2014年4月23日 下午2:35:53
  */
-public abstract class AbstractServiceImpl implements IService {
+public abstract class AbstractServiceImpl<T> implements IService<T> {
 
-	private IMapper mapper;
+	private IMapper<T> mapper;
 
-	public IMapper getMapper() {
+	public IMapper<T> getMapper() {
 		return mapper;
 	}
 
-	public void setMapper(IMapper mapper) {
+	public void setMapper(IMapper<T> mapper) {
 		this.mapper = mapper;
 	}
 
 	@Override
-	public void save(Object object) throws ServiceException {
+	public void save(T object) throws ServiceException {
 		try {
 			mapper.save(object);
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public abstract class AbstractServiceImpl implements IService {
 		}
 	}
 	@Override
-	public void update(Object object) throws ServiceException {
+	public void update(T object) throws ServiceException {
 		try {
 			mapper.update(object);
 		} catch (Exception e) {
@@ -52,7 +52,7 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public Object getByKey(Serializable key) throws ServiceException {
+	public T getByKey(Serializable key) throws ServiceException {
 		try {
 			return mapper.getByKey(key);
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public void delete(Object object) throws ServiceException {
+	public void delete(T object) throws ServiceException {
 		try {
 			mapper.delete(object);
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public List<Object> findByExample(Object object) throws ServiceException {
+	public List<T> findByExample(T object) throws ServiceException {
 		try {
 			return mapper.findByExample(object);
 		} catch (Exception e) {
@@ -97,7 +97,7 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public Object findOneByExample(Object object) throws ServiceException {
+	public T findOneByExample(T object) throws ServiceException {
 		try {
 			return mapper.findOneByExample(object);
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public List<Object> loadAll() throws ServiceException {
+	public List<T> loadAll() throws ServiceException {
 		try {
 			return mapper.loadAll();
 		} catch (Exception e) {
@@ -115,9 +115,9 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public List<Object> findOnePageByExample(Object object, Pagination page) throws ServiceException {
+	public List<T> findOnePageByExample(T object, Pagination page) throws ServiceException {
 		try {
-			List<Object> list = mapper.findOnePageByExample(object, page);
+			List<T> list = mapper.findOnePageByExample(object, page);
 			// 如果记录数不够，则不用查询数据，直接计算出记录条数，前提：页面不能提交错误的pageNumber
 			if (list == null || list.size() < page.getPageSize()) {
 				page.setTotalRows((page.getPageNumber() - 1) * page.getPageSize() + (list == null ? 0 : list.size()));
@@ -131,9 +131,9 @@ public abstract class AbstractServiceImpl implements IService {
 	}
 
 	@Override
-	public List<Object> loadOnePage(Pagination page) throws ServiceException {
+	public List<T> loadOnePage(Pagination page) throws ServiceException {
 		try {
-			List<Object> list = mapper.loadOnePage(page);
+			List<T> list = mapper.loadOnePage(page);
 			// 如果记录数不够，则不用查询数据，直接计算出记录条数，前提：页面不能提交错误的pageNumber
 			if (list == null || list.size() < page.getPageSize()) {
 				page.setTotalRows((page.getPageNumber() - 1) * page.getPageSize() + (list == null ? 0 : list.size()));
@@ -146,9 +146,9 @@ public abstract class AbstractServiceImpl implements IService {
 		}
 	}
 	@Override
-	public List<Object> search(Object object, Pagination page) throws ServiceException {
+	public List<T> search(T object, Pagination page) throws ServiceException {
 		try {
-			List<Object> list = mapper.search(object, page);
+			List<T> list = mapper.search(object, page);
 			// 如果记录数不够，则不用查询数据，直接计算出记录条数，前提：页面不能提交错误的pageNumber
 			if (list == null || list.size() < page.getPageSize()) {
 				page.setTotalRows((page.getPageNumber() - 1) * page.getPageSize() + (list == null ? 0 : list.size()));

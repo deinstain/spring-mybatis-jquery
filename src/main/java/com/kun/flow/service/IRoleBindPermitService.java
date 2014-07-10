@@ -12,6 +12,7 @@ import java.util.List;
 import com.kun.flow.bean.Pagination;
 import com.kun.flow.exception.ServiceException;
 import com.kun.flow.model.Operater;
+import com.kun.flow.model.RoleBindPermit;
 
 /**
  * 角色绑定到权限的业务接口
@@ -20,7 +21,7 @@ import com.kun.flow.model.Operater;
  * @version 1.0.0
  * @2014年4月26日 上午10:21:01
  */
-public interface IRoleBindPermitService extends IService {
+public interface IRoleBindPermitService extends IService<RoleBindPermit> {
 
 	/**
 	 * 修改角色绑定权限
@@ -45,5 +46,5 @@ public interface IRoleBindPermitService extends IService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public List<Object> listByRole(Long roleId, Pagination page) throws ServiceException;
+	public List<RoleBindPermit> listByRole(Long roleId, Pagination page) throws ServiceException;
 }

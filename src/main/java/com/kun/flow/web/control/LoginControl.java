@@ -15,7 +15,7 @@ import com.kun.flow.web.response.Out;
 
 @Controller
 @RequestMapping("/login")
-public class LoginControl extends BaseControl {
+public class LoginControl extends BaseControl<Operater> {
 
 	public IOperaterService getOperaterService() {
 		return (IOperaterService) this.getService();
@@ -31,7 +31,7 @@ public class LoginControl extends BaseControl {
 	 */
 	@RequestMapping("/login.do")
 	@ResponseBody
-	public Out login(Operater operater) {
+	public Out<Object> login(Operater operater) {
 		try {
 			Operater tmp = this.getOperaterService().validate(operater);
 			if (tmp == null) {// 登陆失败
@@ -58,7 +58,7 @@ public class LoginControl extends BaseControl {
 	 */
 	@RequestMapping("/logout.do")
 	@ResponseBody
-	public Out logout() {
+	public Out<Object> logout() {
 		try {
 			((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getSession()
 					.removeAttribute(Constants.USER_INFO);

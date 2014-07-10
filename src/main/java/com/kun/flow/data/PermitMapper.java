@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-public interface PermitMapper extends IMapper {
+import com.kun.flow.model.Permit;
+
+public interface PermitMapper extends IMapper<Permit> {
 
 	/**
 	 * 获取操作者的权限列表
@@ -17,8 +19,7 @@ public interface PermitMapper extends IMapper {
 	 * @return List
 	 * @throws Exception
 	 */
-	public List<Object> listPermitsByOperater(@Param("key")
-	Serializable key) throws Exception;
+	public List<Permit> listPermitsByOperater(@Param("key") Serializable key) throws Exception;
 
 	/**
 	 * 获取角色的权限列表
@@ -30,8 +31,7 @@ public interface PermitMapper extends IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Object> listPermitsByRole(@Param("key")
-	Serializable key) throws Exception;
+	public List<Permit> listPermitsByRole(@Param("key") Serializable key) throws Exception;
 
 	/**
 	 * 获取未绑定到角色上的权限
@@ -43,6 +43,5 @@ public interface PermitMapper extends IMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Object> listUnbindPermitsByRole(@Param("key")
-	Serializable key) throws Exception;
+	public List<Permit> listUnbindPermitsByRole(@Param("key") Serializable key) throws Exception;
 }

@@ -16,12 +16,15 @@ import com.kun.flow.model.OperaterBindRole;
 import com.kun.flow.service.IOperaterBindRoleService;
 
 /**
+ * 操作者与角色关联service
  * 
  * @author songkun
  * @version 1.0.0
  * @2014年4月25日 下午9:34:58
  */
-public class OperaterBindRoleServiceImpl extends AbstractServiceImpl implements IOperaterBindRoleService {
+public class OperaterBindRoleServiceImpl extends AbstractServiceImpl<OperaterBindRole>
+		implements
+			IOperaterBindRoleService {
 
 	private OperaterBindRoleMapper getOperaterBindRoleMapper() {
 		return (OperaterBindRoleMapper) this.getMapper();

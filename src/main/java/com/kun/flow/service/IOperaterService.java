@@ -17,7 +17,7 @@ import com.kun.flow.model.Operater;
  * @version 1.0.0
  * @2014年4月24日 下午11:35:59
  */
-public interface IOperaterService extends IService {
+public interface IOperaterService extends IService<Operater> {
 
 	/**
 	 * 登录验证

@@ -9,6 +9,7 @@ package com.kun.flow.service;
 
 import com.kun.flow.exception.ServiceException;
 import com.kun.flow.model.Operater;
+import com.kun.flow.model.OperaterBindRole;
 
 /**
  * 操作者与角色绑定业务接口
@@ -17,7 +18,7 @@ import com.kun.flow.model.Operater;
  * @version 1.0.0
  * @2014年4月25日 下午9:22:23
  */
-public interface IOperaterBindRoleService extends IService {
+public interface IOperaterBindRoleService extends IService<OperaterBindRole> {
 	/**
 	 * 修改用户绑定角色
 	 * 
