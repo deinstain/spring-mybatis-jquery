@@ -2,6 +2,8 @@ package com.kun.flow.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Operater{
 
 	/**
@@ -147,6 +149,7 @@ public class Operater{
 	 * @return  the value of operater.password
 	 * @mbggenerated  Thu Apr 24 23:56:12 CST 2014
 	 */
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
