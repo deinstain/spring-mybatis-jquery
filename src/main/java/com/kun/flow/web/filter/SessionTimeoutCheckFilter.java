@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 
 import com.kun.flow.constants.Constants;
 
-
 /**
  * Session过期检查.
  * 
@@ -87,10 +86,11 @@ public class SessionTimeoutCheckFilter implements Filter {
 		try {
 			if (clientRedirect) {
 				StringBuilder sb = new StringBuilder(80);
-				sb.append("<script>alert('连接超时');window.top.location.href='");
+				sb.append("alert('连接超时');top.location.href='");
 				sb.append(request.getContextPath());
-				sb.append("';</script>");
-				response.setContentType("text/html; charset=GBK");
+				sb.append("';");
+				response.setContentType("text/html; charset=utf-8");
+				response.setStatus(400);
 				response.getWriter().print(sb.toString());
 			} else {
 				response.sendRedirect(request.getContextPath());

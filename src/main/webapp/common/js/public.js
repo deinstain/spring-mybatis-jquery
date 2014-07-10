@@ -20,7 +20,10 @@ $.ajaxSetup({
 	cache : false,
 	complete : function(XMLHttpRequest, textStatus) {
 		if (XMLHttpRequest.status >= 400) {
-			window.location.href = '/';
+			//top.location.href = '/';
+			if (XMLHttpRequest.responseText) {
+				eval(XMLHttpRequest.responseText);
+			}
 		}
 	}
 });
