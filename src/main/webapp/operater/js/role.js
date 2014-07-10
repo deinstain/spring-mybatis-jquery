@@ -121,6 +121,10 @@ function clickRoleRow(rowIndex, rowData) {
 					$('#role_binded_permit_tree').tree({
 						data : data.rows
 					});
+				} else {
+					$('#role_binded_permit_tree').tree({
+						data : []
+					});
 				}
 			});
 }
