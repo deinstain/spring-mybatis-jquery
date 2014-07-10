@@ -66,7 +66,7 @@ public class RoleBindPermitServiceImpl extends AbstractServiceImpl implements IR
 			if (list == null || list.size() < page.getPageSize()) {
 				page.setTotalRows((page.getPageNumber() - 1) * page.getPageSize() + (list == null ? 0 : list.size()));
 			} else {
-				page.setTotalRows(this.getRoleBindPermitMapper().getCountByExample(roleId));
+				page.setTotalRows(this.getRoleBindPermitMapper().getCountByRole(roleId));
 			}
 			return list;
 		} catch (Exception e) {
