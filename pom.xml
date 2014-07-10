@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kun.springmvc</groupId>
 	<artifactId>spring-mybatis-jquery</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>spring-mybatis-jquery</name>
 	<description>spring mvc/aop/ioc-mybatis-jquery</description>
