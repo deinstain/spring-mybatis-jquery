@@ -9,6 +9,7 @@ package com.kun.flow.web.control;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,6 +28,7 @@ import com.kun.flow.web.response.Out;
  * @version 1.0.0
  * @2014年4月26日 上午9:52:17
  */
+@Controller
 @RequestMapping("/role")
 public class RoleControl extends BaseControl<Role> {
 

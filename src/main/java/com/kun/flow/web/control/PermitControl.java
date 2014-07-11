@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,6 +31,7 @@ import com.kun.flow.web.response.Out;
  * @version 1.0.0
  * @2014年4月25日 下午2:03:25
  */
+@Controller
 @RequestMapping("/permit")
 public class PermitControl extends BaseControl<Permit> {
 

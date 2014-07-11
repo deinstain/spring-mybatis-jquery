@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,6 +32,7 @@ import com.kun.flow.web.response.Out;
  * @version 1.0.0
  * @2014年4月26日 上午10:39:47
  */
+@Controller
 @RequestMapping("/roleBindPermit")
 public class RoleBindPermitControl extends BaseControl<RoleBindPermit> {
 
