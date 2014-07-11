@@ -17,7 +17,7 @@ http://www.springframework.org/schema/mvc
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>
-				<!-- 为了IE下载json数据的问题 -->
+				<!-- 为了解决IE下载json数据的问题 -->
 				<value>text/html;charset=utf-8</value>
 			</list>
 		</property>
