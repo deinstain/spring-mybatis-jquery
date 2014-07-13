@@ -85,10 +85,17 @@ public class SessionTimeoutCheckFilter implements Filter {
 	private void redirect(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			if (clientRedirect) {
+				boolean needScript = request.getRequestURL().indexOf(".do") < 0;
 				StringBuilder sb = new StringBuilder(80);
+				if (needScript) {
+					sb.append("<script>");
+				}
 				sb.append("alert('连接超时');top.location.href='");
 				sb.append(request.getContextPath());
 				sb.append("';");
+				if (needScript) {
+					sb.append("</script>");
+				}
 				response.setContentType("text/html; charset=utf-8");
 				response.setStatus(400);
 				response.getWriter().print(sb.toString());
