@@ -114,7 +114,7 @@ public class OperaterControl extends BaseControl<Operater> {
 				return MessageOut.RECORD_UN_EXIST_MESSAGE;
 			} else {
 				// 如果不是超级用户 或者 不是用户自己 ，无法修改
-				if (dbOperater.getId().equals(curOperater.getSuperUser())
+				if (dbOperater.getId().equals(curOperater.getId())
 						|| (curOperater.getSuperUser() == 1 && dbOperater.getSuperUser() != 1)) {
 					if (getOperaterService().isExist(operater)) {
 						return MessageOut.NAME_OR_CODE_EXIST_MESSAGE;
