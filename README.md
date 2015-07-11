@@ -1,2 +1,2 @@
-struts2-spring-hibernate
+https://github.com/songkun/spring-mybatis-jquery-2
 ========================
